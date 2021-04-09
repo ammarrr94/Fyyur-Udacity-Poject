@@ -385,10 +385,11 @@ def shows():
   for show in shows:
     data.append({
       "venue_id": show.venue_id,
-      "venue_name": show.venue_name,
+      "venue_name": show.venue.name,
       "artist_id": show.artist_id,
+      "artist_name": show.artist.name,
       "artist_image_link": show.artist.image_link,
-      "start_time": show.start_time
+      "start_time": str(show.start_time)
     })
   return render_template('pages/shows.html', shows=data)
 
