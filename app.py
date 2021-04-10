@@ -285,16 +285,16 @@ def edit_artist(artist_id):
   form = ArtistForm()
   artist = Artist.query.get(artist_id)
 
-  artist_data={
+  artist_data = {
     "id": artist.id,
     "name": artist.name,
-    "genres": artist.genres.split(','),
+    "genres": artist.genres,
     "city": artist.city,
     "state": artist.state,
     "phone": artist.phone,
-    "website_link": artist.website_link,
+    "website_link": artist.website,
     "facebook_link": artist.facebook_link,
-    "seeking_venue": artist.seeking_venue,
+    "seeking_venue": artist.seeking_venues,
     "seeking_description": artist.seeking_description,
     "image_link": artist.image_link
   }
