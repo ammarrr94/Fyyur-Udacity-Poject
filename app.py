@@ -14,18 +14,21 @@ from flask_wtf import Form
 from forms import *
 from flask_migrate import Migrate
 import sys
-from models import *
+from models import Venue, Show, Artist, db
+from datetime import datetime
+
 
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
 
 app = Flask(__name__)
-moment = Moment(app)
 app.config.from_object('config')
-db = SQLAlchemy(app)
+moment = Moment(app)
+db.init_app(app)
 migrate = Migrate(app, db)
 
+#db = SQLAlchemy()
 
 #----------------------------------------------------------------------------#
 # Filters.
@@ -340,15 +343,14 @@ def create_artist_submission():
     website = request.form['website_link']
     seeking_venue = True if request.form['seeking_venue'] == 'y' else False
     seeking_description = request.form['seeking_description']
-
-    flash('Artist ' + request.form['name'] + ' was successfully listed!')
-
+    
     artist = Artist(name=name, city=city, state=state, phone=phone, genres=genres, image_link=image_link,
     facebook_link=facebook_link, website=website,
     seeking_venues=seeking_venue, seeking_description=seeking_description)
 
     db.session.add(artist)
     db.session.commit()
+    flash('Artist ' + request.form['name'] + ' was successfully listed!')
 
   except Exception as e:
     error = True
