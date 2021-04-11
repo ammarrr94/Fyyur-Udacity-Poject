@@ -143,15 +143,14 @@ def create_venue_submission():
     genres=genres, image_link=image_link, facebook_link=facebook_link, website=website,
     seeking_talent=seeking_talent, seeking_description=seeking_description)
 
-    flash('Venue ' + request.form['name'] + ' was successfully listed!') 
-
     db.session.add(venue)
     db.session.commit()
+    flash('Venue ' + request.form['name'] + ' was successfully listed!') 
 
   except Exception as e:
     error = True
-    flash('Venue ' + request.form['name'] + ' could not be listed.')
     db.session.rollback()
+    flash('Venue ' + request.form['name'] + ' could not be listed.')
     print(e)
 
   finally:
@@ -354,8 +353,8 @@ def create_artist_submission():
 
   except Exception as e:
     error = True
-    flash('Artist ' + request.form['name'] + ' could not be listed.')
     db.session.rollback()
+    flash('Artist ' + request.form['name'] + ' could not be listed.')
     print(e)
 
   finally:
@@ -395,14 +394,13 @@ def create_show_submission():
 
     show = Show(venue_id=venue_id, artist_id=artist_id, start_time=start_time)
 
-    flash('Show was successfully listed!')
-
     db.session.add(show)
     db.session.commit()
+    flash('Show was successfully listed!')
   except:
     error = True
-    flash('Show could not be listed.')
     db.session.rollback()
+    flash('Show could not be listed.')
     print(sys.exc_info())
   finally:    
     db.session.close()
