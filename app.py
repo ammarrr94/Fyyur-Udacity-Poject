@@ -27,6 +27,7 @@ app.config.from_object('config')
 moment = Moment(app)
 db.init_app(app)
 migrate = Migrate(app, db)
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 #db = SQLAlchemy()
 
@@ -386,7 +387,6 @@ def create_shows():
 
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
-  error = False
   try:
     venue_id = request.form['venue_id']
     artist_id = request.form['artist_id']
@@ -397,11 +397,10 @@ def create_show_submission():
     db.session.add(show)
     db.session.commit()
     flash('Show was successfully listed!')
-  except:
-    error = True
+  except Exception as e:
     db.session.rollback()
     flash('Show could not be listed.')
-    print(sys.exc_info())
+    print(e)
   finally:    
     db.session.close()
   return render_template('pages/home.html')
